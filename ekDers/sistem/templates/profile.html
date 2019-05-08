@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+            <div class = "row">
+                <div class="cold-md-6" style="float:none; margin: 0 auto;">
+                    <form method="POST" enctype="multipart/form-data">
+                      <legend class="border-bottom mb-4" style="text-align:center">{{title}}</legend>
+                        {% csrf_token %}
+                        {{ u_form|crispy }}
+                        {{ p_form|crispy }}
+                        <hr>
+                        <h3>Sistemde Kayıtlı Bölüm Başkanı:</h3>
+                        {%if bolum_baskani%}
+                            <h5>{{bolum_baskani}}<h5>
+                        {%else%}
+                            <h5>Bölüm Başkanı Görünmüyor, Bölümünüzü Doğru Girdiğinizden Emin Olun</h5>
+                        {%endif%}
+                        <hr>
+                        <input class="btn btn-outline-success btn-block" type="submit" value="Kaydet">
+                    {%if dersler %}
+                      <a href="{%url 'sistem:dersler' %}" class="btn btn-outline-info btn-block ">Ders Bilgilerini Görüntüle</a>
+                      <a href="{%url 'sistem:index' %}" class="btn btn-outline-dark btn-block">Anasayfa</a>
+                       </form>
+                    {%else%}
+                      <h5>Adınıza Ders Görünmüyor, Adınızı ve Soyadınızı Doğru Girdiğinizden Emin Olun</h5>
+                      <a href="{%url 'sistem:index' %}" class="btn btn-outline-dark btn-block">Anasayfa</a>
+                       </form>
+                    {%endif%}
+                </div>
+        </div>
+{% endblock %}

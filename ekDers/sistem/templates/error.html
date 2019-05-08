@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<div style="text-align:center">
+  <img src="{% static 'backgrounds/robot-error-codes.png' %}"> 
+  <h3>{{message}}</h3>
+  <hr>
+  <a href="{%url 'sistem:profile' %}" class="btn btn-outline-info" >Profili & Dersleri Düzenle</a>
+  <a href="{%url 'sistem:index' %}" class="btn btn-outline-dark ">Anasayfa</a>
+</div>
+{% endblock %}

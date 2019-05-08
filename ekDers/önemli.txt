@@ -1,0 +1,4 @@
+ilk migrate'i yaparken kullanılması gereken komut :
+python manage.py migrate --run-syncdb
+
+çünkü admin yaratırken profile table'ının çoktan yaratılmış olması gerekli

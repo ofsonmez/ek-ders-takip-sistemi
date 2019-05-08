@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+                <div class="cold-md-6" style="float:none; margin: 0 auto;">
+                    <form method="POST" enctype="multipart/form-data">
+                      <legend class="border-bottom mb-4" style="text-align:center">{{title}}</legend>
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <hr>
+                        <input class="btn btn-outline-success btn-block" type="submit" value="Yükle">
+                        <a href="{%url 'sistem:profile' %}" class="btn btn-outline-info btn-block">Profili & Dersleri Düzenle</a>
+                        <a href="{%url 'sistem:logout' %}" class="btn btn-outline-danger btn-block">Çıkış Yap</a>
+                    </form>
+                </div>
+        </div>
+    </div>
+
+{% endblock %}

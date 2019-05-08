@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br>
+ <h3>Sistemde Adınıza Görünen Dersler:</h3>
+<div class ="row">
+     {% for ders in dersler %}
+     <div class="col-sm-4">
+      <hr>
+         <div class="card">
+           <div class="card-body">
+              <h5 class="card-title">{{ders.dersAdı}}</h5>
+             <p class="card-text">Kodu: {{ders.dersKodu}} <br />Kredisi: {{ders.dersKredisi}} </p>
+             <a href="{{ders.get_update_url}}" class="btn btn-outline-dark">Ders Bilgilerini Güncelle</a>
+           </div>
+         </div>
+     </div>
+     {%endfor%}
+     <div class="col-sm-6"style="float:none; margin: 0 auto;">
+     <hr>
+     <a href="{%url 'sistem:create' %}" class="btn btn-outline-success btn-block" >Ders Ekle</a>
+     <a href="{%url 'sistem:profile' %}" class="btn btn-outline-info btn-block" >Profili Düzenle</a>
+     <a href="{%url 'sistem:index' %}" class="btn btn-outline-dark btn-block" >Anasayfa</a>
+   </div>
+</div>
+
+{% endblock %}
