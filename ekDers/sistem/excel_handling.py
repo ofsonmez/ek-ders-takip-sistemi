@@ -5,7 +5,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import Dersler, BolumBaskani
 from .forms import *
 from openpyxl import load_workbook
-from datetime import datetime
 import xlrd
 
 now = timezone.now()
