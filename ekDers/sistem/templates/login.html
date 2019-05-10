@@ -9,9 +9,9 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <hr>
-                        <input class="btn btn-outline-dark btn-block" type="submit" value="Giriş Yap">
-                        <a href="{%url 'sistem:signup' %}" class="btn btn-outline-dark btn-block">Kayıt Ol</a>
-                        <a href="{%url 'password_reset' %}" class="btn btn-outline-dark btn-block">Şifremi Unuttum</a>
+                        <input class="btn btn-outline-success btn-block" type="submit" value="Giriş Yap">
+                        <a href="{%url 'sistem:signup' %}" class="btn btn-outline-primary btn-block">Kayıt Ol</a>
+                        <a href="{%url 'password_reset' %}" class="btn btn-outline-warning btn-block">Şifremi Unuttum</a>
                     </form>
                 </div>
         </div>

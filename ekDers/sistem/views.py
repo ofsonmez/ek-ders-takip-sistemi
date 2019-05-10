@@ -42,6 +42,7 @@ def signup(request):
             user.refresh_from_db()
             user.profile.bolum = form.cleaned_data.get('Bolum')
             user.profile.fakulte = form.cleaned_data.get('Fakulte')
+            user.profile.dersYuku = form.cleaned_data.get('Dersyuku')
             user.save()
             #raw_password = form.cleaned_data.get('Sifre')
            # user = authenticate(username=user.username, password=raw_password)

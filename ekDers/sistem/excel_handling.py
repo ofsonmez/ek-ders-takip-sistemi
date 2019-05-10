@@ -151,10 +151,12 @@ def dersleri_cek(sayfa, donguBas, donguSon, Gun):
 		"dersAdı": "",
 		"gun": "",
 		"saat": 1,
+		"ikinciOgretim": False,
 	}    
 	for x in range(donguBas, donguSon):
 		for y in range(1, sayfa.ncols, 7):
-			if sayfa.cell_value(x, y-1) != "1" and sayfa.cell_value(x, y-1) != "5":
+			if not sayfa.cell_value(x, y-1).isnumeric():
+			#if sayfa.cell_value(x, y-1) != "1" and sayfa.cell_value(x, y-1) != "5":
 				continue
 			anlik["kod"] = sayfa.cell_value(x, y)
 			anlik["gun"] = sayfa.cell_value(Gun, y-1)
@@ -198,6 +200,8 @@ def excelFileHandle(bas_tarih, son_tarih, file, dersler,request):
 		except ObjectDoesNotExist:
 			return render(request,'error.html',{'message': 'Yüklediginiz Formla Sistemdeki Dersleriniz Uyuşmuyor, Derslerinizi Duzenleyin.'})
 		ders["dersAdı"] = gelen_ders.dersAdı
+		if gelen_ders.ikinciOgretim:
+			ders["ikinciOgretim"] = True
 		if search_kredi(kredi, anlik_kredi):
 			for y in range(len(gelen_ders.dersKredisi)):
 				anlik_kredi["kredi"].append(gelen_ders.dersKredisi[y])
@@ -208,8 +212,10 @@ def excelFileHandle(bas_tarih, son_tarih, file, dersler,request):
 	kredi_hazirla(kredi)
 	kredi_toparla(kredi)
 	kontrol = kredi_kontrol(kredi,cikti)
+	
 	if  kontrol != 'No Problem':
 		return render(request, 'error.html', {'message': f'{kontrol} Kodlu Dersinizin Kredisi Yanlış Girilmiş Lütfen Düzeltin.'})
+	
 	#for x in kredi:
 	#	print(x)
 	#for ders in cikti:
@@ -259,18 +265,24 @@ def excelFileHandle(bas_tarih, son_tarih, file, dersler,request):
 	ws.cell(row = 80, column = 33).value = bolum_baskani
 
 	sayac = 25
+	ikinci_sayac = 48
 	for ders in cikti:
-		tur = bilgilendir(ders=ders,kredi=kredi,cikti=cikti) 
-		ws.cell(row=sayac, column = 16).value = ders["kod"]
-		ws.cell(row=sayac, column = 50).value = ders["gun"]
-		ws.cell(row=sayac, column = 20).value = ders["dersAdı"]
-		ws.cell(row=sayac, column = 12).value = tur
-		ws.cell(row=sayac, column = 2).value = kelime_manipule(user.profile.fakulte, "i", "İ").upper()
+		tur = bilgilendir(ders=ders,kredi=kredi,cikti=cikti)
+		if ders["ikinciOgretim"]:
+			ucuncu_sayac = ikinci_sayac
+			ikinci_sayac+=1
+		else:
+			ucuncu_sayac = sayac
+			sayac+=1 
+		ws.cell(row=ucuncu_sayac, column = 16).value = ders["kod"]
+		ws.cell(row=ucuncu_sayac, column = 50).value = ders["gun"]
+		ws.cell(row=ucuncu_sayac, column = 20).value = ders["dersAdı"]
+		ws.cell(row=ucuncu_sayac, column = 12).value = tur
+		ws.cell(row=ucuncu_sayac, column = 2).value = kelime_manipule(user.profile.fakulte, "i", "İ").upper()
 		if tur == "T":
-			ws.cell(row=sayac, column = 38).value = ders["saat"]
+			ws.cell(row=ucuncu_sayac, column = 38).value = ders["saat"]
 		if tur == "U":
-			ws.cell(row=sayac, column = 41).value = ders["saat"]
-		sayac+=1
+			ws.cell(row=ucuncu_sayac, column = 41).value = ders["saat"]
 	#for x in kredi:
 	#	print(x)
 	wb.save(response)

@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .widgets import BootstrapDateTimePickerInput
 from .models import *
+from .choices import BOLUM_CHOICES
 from django.core.validators import FileExtensionValidator
 
 class LoginForm(forms.Form):
@@ -29,9 +30,8 @@ class UserRegisterForm(UserCreationForm):
 
     email = forms.EmailField()
     Fakulte = forms.CharField()
-    Bolum = forms.CharField()
-    dersYuku = forms.IntegerField()
-    dersYuku.label = 'Toplam Ders Yuku'
+    Bolum = forms.ChoiceField(choices=BOLUM_CHOICES)
+    Dersyuku = forms.IntegerField(min_value=0)
 
     class Meta:
         model = User
@@ -78,6 +78,7 @@ class UserUpdateForm(forms.ModelForm):
         }
 
 class ProfileUpdateForm(forms.ModelForm):
+
     class Meta:
         model = Profile        
         fields = ['bolum', 'fakulte', 'dersYuku']
@@ -90,4 +91,4 @@ class AdminUploadForm(forms.Form):
 class DersForm(forms.ModelForm):
     class Meta:
         model = Dersler
-        fields = ['dersAdı','dersKodu','dersKredisi']
+        fields = ['dersAdı','dersKodu','dersKredisi', 'ikinciOgretim']
